@@ -16,11 +16,8 @@ RUN useradd -g $DOCKER_GID -u $DOCKER_UID -m docker
 # faketime - для удобства тестирования логики завязанной на время
 RUN apt-get update \
     && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
         libmcrypt-dev \
         libzip-dev \
-        libpng-dev \
         libpq-dev \
         git \
         libicu-dev \
@@ -33,11 +30,7 @@ RUN docker-php-ext-install bcmath exif pcntl zip \
     && docker-php-ext-install intl \
     && docker-php-ext-enable intl
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd pdo_mysql
-
-RUN pecl install redis xdebug \
-    && docker-php-ext-enable redis.so xdebug
+RUN docker-php-ext-install -j$(nproc) pdo_pgsql
 
 COPY .deploy/app/php-ini-overrides.ini /usr/local/etc/php/conf.d/99-overrides.ini
 

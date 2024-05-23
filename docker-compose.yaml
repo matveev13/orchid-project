@@ -11,7 +11,7 @@ services:
       #    монтируется конфиг nginx для приложения
       - ./.deploy/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - orchid-project_network_internal
 
@@ -36,14 +36,15 @@ services:
 
   # master СУБД приложения в режиме потоковой репликации
   db:
-    image: 'mysql'
+    image: 'bitnami/postgresql:14.0.0'
     container_name: orchid-project-db
     restart: always
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
     environment:
-        MYSQL_DATABASE: orchid-project
-        MYSQL_USER: user
-        MYSQL_PASSWORD: user_pwd
-        MYSQL_ROOT_PASSWORD: root_pwd
+      POSTGRESQL_USERNAME: user
+      POSTGRESQL_PASSWORD: user_pwd
+      POSTGRESQL_DATABASE: orchid-project
     networks:
       - orchid-project_network_internal
 
