@@ -139,7 +139,7 @@ class AddProduct extends Screen
                     ->type('integer')
                     ->required()
                     ->title(__('Цена'))
-                    ->placeholder(__('введи размер')),
+                    ->placeholder(__('введи цену')),
 
               
 

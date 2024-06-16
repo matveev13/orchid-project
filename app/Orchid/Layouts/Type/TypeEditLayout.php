@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Orchid\Layouts\Category;
+declare(strict_types=1);
+
+namespace App\Orchid\Layouts\Type;
 
 use Orchid\Screen\Field;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Rows;
 
-class CategoryEditLayout extends Rows
+class TypeEditLayout extends Rows
 {
     /**
      * The screen's layout elements.
@@ -16,12 +18,12 @@ class CategoryEditLayout extends Rows
     public function fields(): array
     {
         return [
-            Input::make('category.category')
+            Input::make('type.type')
                 ->type('text')
                 ->max(255)
                  ->required()
-                 ->title(__('Category'))
-                // ->placeholder(__('Name')),
+                 ->title(__('Type'))
+                 //->placeholder(__('Type')),
 
           
         ];

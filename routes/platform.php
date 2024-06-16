@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Orchid\Screens\Category\AddCategory;
-use App\Orchid\Screens\Category\CategoryList;
+
+
 use App\Orchid\Screens\Examples\ExampleActionsScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
@@ -23,14 +23,18 @@ use Illuminate\Support\Facades\Route;
 use Tabuna\Breadcrumbs\Trail;
 
 use App\Orchid\Screens\EmailSenderScreen;
+
 use App\Orchid\Screens\Products\ProductsList;
 use App\Orchid\Screens\Products\AddProduct;
 use App\Orchid\Screens\Products\EditProduct;
-use App\Orchid\Screens\Category\CategoryScreen;
+
+use App\Orchid\Screens\Category\AddCategory;
+use App\Orchid\Screens\Category\CategoryList;
 use App\Orchid\Screens\Category\EditCategory;
+
 use App\Orchid\Screens\Type\AddType;
 use App\Orchid\Screens\Type\TypeList;
-use App\Orchid\Screens\Type\TypeScreen;
+use App\Orchid\Screens\Type\EditType;
 
 //use App\Orchid\Screens\User\EditProduct as UserEditProduct;
 
@@ -130,11 +134,14 @@ Route::screen('/Products/ProductsList', ProductsList::class)->name('platform.pro
 Route::screen('/Products/AddProduct', AddProduct::class)->name('platform.products.addproduct');
 Route::screen('/Products/EditProduct/{id}', EditProduct::class)->name('platform.products.editproduct');
 
-Route::screen('/Category/CategoryList', CategoryList::class)->name('platform.category.categorylist');
+Route::screen('/Category/categorylist', CategoryList::class)->name('platform.category.categorylist');
 Route::screen('/Category/AddCategory', AddCategory::class)->name('platform.category.addcategory');
-Route::screen('/Category/EditCategory/{id}', EditCategory::class)->name('platform.category.editcategory');
+Route::screen('/Category/editcategory/{id}', EditCategory::class)->name('platform.category.editcategory');
 
+
+//Route::screen('/Type/typelist/{id}/remove', TypeList::class)->name('platform.type.typelist.remove');
 Route::screen('/Type/typelist', TypeList::class)->name('platform.type.typelist');
 Route::screen('/Type/addtype', AddType::class)->name('platform.type.addtype');
-//Route::screen('/Type/addtype', AddType::class)->name('platform.type.addtype');
+Route::screen('/Type/edittype/{id}', EditType::class)->name('platform.type.edittype');
+
 

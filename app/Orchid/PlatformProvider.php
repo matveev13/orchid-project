@@ -34,20 +34,18 @@ class PlatformProvider extends OrchidServiceProvider
     public function menu(): array
     {
         return [
+            Menu::make('Types')
+                ->icon('bs.bar-chart')
+                ->route('platform.type.typelist')
+               /*  ->permission('platform.systems.types') */,
 
             Menu::make('Categories')
                 ->icon('bs.bar-chart')
                 ->route('platform.category.categorylist'),
 
-            Menu::make('Types')
-                ->icon('bs.bar-chart')
-                ->route('platform.type.typelist'),
-
             Menu::make('Products')
                 ->icon('bs.bar-chart')
                 ->route('platform.products.productslist'),
-
-
 
             Menu::make(__('Users'))
                 ->icon('bs.people')

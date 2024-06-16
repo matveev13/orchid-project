@@ -2,13 +2,18 @@
 
 namespace App\Orchid\Screens\Products;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Type;
 use App\Orchid\Layouts\Product\ProductEditLayout;
-//use Faker\Core\Color;
+use Orchid\Screen\Fields\Input;
 use Orchid\Support\Color;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
+use Orchid\Screen\Fields\Select;
+use Orchid\Support\Facades\Alert;
+use Illuminate\Http\Request;
 
 class EditProduct extends Screen
 {
@@ -19,11 +24,11 @@ class EditProduct extends Screen
      *
      * @return array
      */
-    public function query(int $id): array
+    public function query(int $id): iterable
     {
-        $this->product = Product::find($id);
+        $product = Product::find($id);
         return [
-            'product'=>  $this->product,
+            'product'=>  $product,
         ];
     }
 
@@ -44,14 +49,10 @@ class EditProduct extends Screen
      *
      * @return \Orchid\Screen\Action[]
      */
-    public function commandBar(): iterable
+  /*   public function commandBar(): iterable
     {
         return [
-           // Button::make(__('Impersonate user'))
-           // ->icon('bg.box-arrow-in-right')
-           // ->confirm(__('You can revert to your original state by logging out.'))
-           // ->method('loginAs'),
-            //->canSee($this->product->exists && $this->product->id !== \request()->product()->id),
+ 
 
         // Button::make(__('Remove'))
         //     ->icon('bs.trash3')
@@ -59,11 +60,11 @@ class EditProduct extends Screen
         //     ->method('remove'),
         //     //->canSee($this->product->exists),
 
-        // Button::make(__('Save'))
-        //     ->icon('bs.check-circle')
-        //     ->method('save'),
+        Button::make(__('Save'))
+            ->icon('bs.check-circle')
+            ->method('save'),
         ];
-    }
+    } */
 
     /**
      * The screen's layout elements.
@@ -73,6 +74,90 @@ class EditProduct extends Screen
     public function layout(): iterable
     {
         return [
+
+            Layout::rows([
+
+                /*--  Сезон  --*/
+                Select::make('type_id')
+                ->options(
+                   Type::all()->pluck('type', 'id')
+                )
+                    ->title('Выбери тип товара'),
+                    //->help('сезон'),
+
+                      /*--  Название  --*/
+
+                Select::make('category_id')
+                ->options(
+                   Category::all()->pluck('category', 'id')
+                )
+                ->title('Выбери категорию товара'),
+                 /*--  Категория  --*/
+               /*   Input::make('category')
+                 ->type('string')
+                 ->required()
+                 ->title(__('Category'))
+                 ->placeholder(__('введи размер')),
+ */ 
+                Input::make('title')
+                    ->type('text')
+                    ->required()
+                    ->title(__('Название товара'))
+                    ->placeholder(__('название товара')), 
+
+                /*--  Пол  --*/
+                Select::make('sex')
+                    ->options([
+                        'М' => 'Мужская',
+                        'Ж' => 'Женская',
+                    ])
+                    ->title('Выбери пол')
+                    ->help('М/Ж'),
+
+                /*--  Цвет  --*/
+                Select::make('color')
+                    ->options([
+                        'Чёрный' => 'Чёрный',
+                        'Коричневый' => 'Коричневый',
+                        'Белый' => 'Белый',
+                        'Серый' => 'Серый',
+                        'Жёлтый' => 'Жёлтый',
+                    ])
+                    ->title('Выбери цвет'),
+                    //->help('цвет'),
+
+                /*--  Размер  --*/
+                Input::make('size')
+                    ->type('integer')
+                    ->required()
+                    ->title(__('Размер'))
+                    ->placeholder(__('введи размер')),
+
+                /*--  Цена  --*/
+                Input::make('price')
+                    ->type('integer')
+                    ->required()
+                    ->title(__('Цена'))
+                    ->placeholder(__('введи размер')),
+
+              
+
+                /*--  Описание  --*/
+                Input::make('description')
+                    ->type('text')
+                    ->required()
+                    ->title(__('Описание товара'))
+                    ->placeholder(__('описание товара')),
+
+                     /*--  Количество на складе  --*/
+                Input::make('quantity_in_stock')
+                ->type('integer')
+                ->required()
+                ->title(__('Количество на складе'))
+                ->placeholder(__('количество на складе')),
+                   
+
+
             Layout::block(ProductEditLayout::class)
             ->title(__('Profile Information'))
             ->description(__('Update your account\'s profile information and email address.'))
@@ -83,6 +168,25 @@ class EditProduct extends Screen
                     //->canSee($this->product->exists)
                     ->method('save')
             ),
+             ])
         ];
+    }
+
+    public function SaveProduct(Request $request)
+    {
+        $product = new Product();
+        $product->category_id = $request->get('category_id');
+        $product->sex = $request->get('sex');
+        $product->color = $request->get('color');
+        $product->size = $request->get('size');
+        $product->price = $request->get('price');
+        $product->title = $request->get('title');
+        $product->description = $request->get('description');
+        $product->quantity_in_stock = $request->get('quantity_in_stock');
+        $product->save();
+
+
+
+        Alert::info('Товар успешно добавлен в базу.');
     }
 }

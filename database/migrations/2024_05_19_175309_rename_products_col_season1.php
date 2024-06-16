@@ -17,13 +17,6 @@ return new class extends Migration
             $table->dropColumn("season");
             $table->integer("category_id");
         });
-
-       /*  Schema::table('products', function (Blueprint $table) {
-            $table->integer("category_id"); */
-
-            // $table->integer('category_id')->unsigned()->default(1);
-            // $table->foreign('category_id')->references('id')->on('categories');
-        // });
     }
 
     /**
@@ -35,9 +28,5 @@ return new class extends Migration
             $table->dropColumn("category_id");
             $table->char("season");
         });
-
-       /*  Schema::table('products', function (Blueprint $table) {
-            
-        }); */
     }
 };

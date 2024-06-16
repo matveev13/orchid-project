@@ -32,11 +32,10 @@ class ProductListLayout extends Table
                 ->filter(Input::make()),
 
                 TD::make('description', __('Description'))
-                ->sort()
-                
+                ->sort()                
                 ->filter(Input::make()),
                 
-                TD::make('season', __('Season'))
+                TD::make('category_id', __('Category'))
                 ->sort()
                 ->cantHide()
                 ->filter(Input::make()),

@@ -16,7 +16,7 @@ class Product extends Model
     //use MultiLanguageTrait;
 
 protected $fillable = [
-    'season',
+    'category',
     'sex',
     'color', 
     'size',

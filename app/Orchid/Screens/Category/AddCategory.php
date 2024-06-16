@@ -74,7 +74,7 @@ class AddCategory extends Screen
                  ->type('string')
                  ->required()
                  ->title(__('Category'))
-                 ->placeholder(__('введи размер')),
+                 ->placeholder(__('введи новую категорию')),
             ]) 
         ];
     }

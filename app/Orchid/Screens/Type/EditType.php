@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Orchid\Screens\Category;
+namespace App\Orchid\Screens\Type;
 
-use App\Models\Category;
-use App\Orchid\Layouts\Category\CategoryEditLayout;
+
+
+use App\Orchid\Layouts\Type\TypeEditLayout;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Toast;
 
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Orchid\Support\Facades\Alert;
 
 
-class EditCategory extends Screen
+class EditType extends Screen
 {
 
-    public $category;
+    public $type;
     /**
      * Fetch data to be displayed on the screen.
      *
@@ -25,12 +27,14 @@ class EditCategory extends Screen
      */
     public function query(int $id): iterable
     {
-       $this->category = Category::find($id);
+        $this->type = Type::find($id);
+
         return [
-            'category' =>  $this->category,
+            'type' =>  $this->type
         ];
-        
+      
     }
+
 
     /**
      * The name of the screen displayed in the header.
@@ -52,10 +56,9 @@ class EditCategory extends Screen
     public function commandBar()
     {
         return [
-
             Button::make(__('Save'))
                 ->icon('bs.check-circle')
-                ->method('save')
+                ->method('save'),
         ];
     }
 
@@ -67,14 +70,14 @@ class EditCategory extends Screen
     public function layout(): iterable
     {
         return [
-            Layout::block(CategoryEditLayout::class)
-                ->title(__('Category Information'))
-                ->description(__('Update your categories'))
+            Layout::block(TypeEditLayout::class)
+                ->title(__('Type Information'))
+                ->description(__('Update your types'))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::BASIC)
                         ->icon('bs.check-circle')
-                        //->canSee($this->product->exists)
+                        //->canSee($this->type->exists)
                         ->method('save')
                 ),
         ];
@@ -82,24 +85,13 @@ class EditCategory extends Screen
 
     public function save( Request $request)
     {
-
-        if (Category::where('category', $request->get('category'))->count() > 0) {
+        if (Type::where('type', $request->get('type'))->count() > 0) {
             Alert::error('Тип дублируется.');
             return;
         }
-        $this->category->fill($this->category = $request->get('category'))
+        $this->type->fill($this->type = $request->get('type'))
             ->save();
-        Toast::info(__('Category was removed'));
-        return redirect()->route('platform.category.categorylist');
-    }
-
-
-    public function remove(Category $category)
-    {
-        $category->delete();
-
-        Toast::info(__('User was removed'));
-
-        return redirect()->route('platform.systems.categories');
+            Toast::info(__('Type was removed'));
+        return redirect()->route('platform.type.typelist');
     }
 }

@@ -18,12 +18,12 @@ class ProductEditLayout extends Rows
     public function fields(): array
     {
         return [
-            Input::make('product.name')
+            Input::make('product.title')
                 ->type('text')
                 ->max(255)
                 ->required()
-                ->title(__('Name'))
-                ->placeholder(__('Name')),
+                ->title(__('Title'))
+                ->placeholder(__('Title')),
 
           
         ];

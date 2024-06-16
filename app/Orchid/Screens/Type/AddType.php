@@ -61,7 +61,7 @@ class AddType extends Screen
                 ->type('string')
                 ->required()
                 ->title(__('Category'))
-                ->placeholder(__('введи размер')),
+                ->placeholder(__('введи новый тип')),
             ])
         ];
     }

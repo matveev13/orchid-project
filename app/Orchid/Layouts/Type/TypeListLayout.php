@@ -23,7 +23,7 @@ class TypeListLayout extends Table
      */
     public function columns(): array
     {
-       
+
         return [
             TD::make('id', __('Type Id')),
 
@@ -39,11 +39,12 @@ class TypeListLayout extends Table
                     ->icon('bs.three-dots-vertical')
                     ->list([
 
-                        //  Link::make(__('Edit'))
-                        //     ->route('platform.type.edittype', $type->id)
-                        //     ->icon('bs.pencil'), 
+                        Link::make(__('Edit'))
+                            ->route('platform.type.edittype', $type->id)
+                            ->icon('bs.pencil'),
 
                         Button::make(__('Delete'))
+                            //->route('platform.type.typelist', $type->id)
                             ->icon('bs.trash3')
                             ->confirm(__('Once the account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.'))
                             ->method('remove', [
@@ -52,4 +53,7 @@ class TypeListLayout extends Table
                     ])),
         ];
     }
+
+
+  
 }

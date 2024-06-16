@@ -6,6 +6,10 @@ use App\Models\Type;
 use App\Orchid\Layouts\Type\TypeListLayout;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
+use Orchid\Support\Facades\Layout;
+use Orchid\Support\Color;
+use Orchid\Support\Facades\Toast;
+use Orchid\Screen\Actions\Button;
 
 class TypeList extends Screen
 {
@@ -14,12 +18,15 @@ class TypeList extends Screen
      *
      * @return array
      */
+//public $type;
+
     public function query(): iterable
     {
+
         return [
             'types' => Type::all()
+           
         ];
-        
     }
 
     /**
@@ -41,8 +48,8 @@ class TypeList extends Screen
     {
         return [
             Link::make(__('Add'))
-            ->icon('bs.plus-circle')
-            ->route('platform.type.addtype'),
+                ->icon('bs.plus-circle')
+                ->route('platform.type.addtype'),
         ];
     }
 
@@ -56,6 +63,23 @@ class TypeList extends Screen
         return [
             TypeListLayout::class
         ];
-        
     } 
+
+    public function asyncGetType(Type $type): iterable
+    {
+        return [
+            'type' => $type,
+        ];
+    }
+    public function remove( Type $type)
+    {
+        //Type::findOrFail($request->get('type'))->delete();
+      $type->delete();
+       // $this->type->fill($this->type = $request->get('type'))
+         //   ->save();
+         Toast::info(__('Type was removed'));
+
+        return redirect()->route('platform.type.typelist');
+    }
 }
+

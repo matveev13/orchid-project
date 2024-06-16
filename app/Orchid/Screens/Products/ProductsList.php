@@ -35,8 +35,7 @@ class ProductsList extends Screen
      */
     public function name(): ?string
     {
-        return 'ProductsList';
-       
+        return 'ProductsList';     
     }
 
     public function description(): ?string
@@ -82,6 +81,6 @@ class ProductsList extends Screen
     {
         Product::findOrFail($request->get('id'))->delete();
 
-        Toast::info(__('User was removed'));
+        Toast::info(__('Product was removed'));
     }
 }
