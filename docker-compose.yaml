@@ -1,0 +1,58 @@
+version: '3.2'
+
+services:
+  #Nginx Service
+  webserver:
+    image: 'nginx:1.17.9-alpine'
+    working_dir: /app
+    container_name: orchid-project-webserver
+    volumes:
+      - ./:/app
+      #    монтируется конфиг nginx для приложения
+      - ./.deploy/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    networks:
+      - orchid-project_network_internal
+
+  #  сервис основного api приложения
+  app:
+#    папка для сборки и используемый dockerfile
+    build:
+      context: .
+      dockerfile: .deploy/app/Dockerfile
+    container_name: orchid-project-app
+#     монтирование файлов проекта в контейнер
+#    image: backend_app
+    volumes:
+      - ./:/app
+    env_file:
+      - ./.env
+    dns:
+      - 8.8.8.8
+      - 4.4.4.4
+    networks:
+      - orchid-project_network_internal
+
+  # master СУБД приложения в режиме потоковой репликации
+  db:
+    image: 'bitnami/postgresql:14.0.0'
+    container_name: orchid-project-db
+    restart: always
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
+    environment:
+      POSTGRESQL_USERNAME: user
+      POSTGRESQL_PASSWORD: user_pwd
+      POSTGRESQL_DATABASE: orchid-project
+    networks:
+      - orchid-project_network_internal
+
+volumes:
+  postgresql_master_data:
+
+
+networks:
+  orchid-project_network_internal:
+    name: orchid-project_b2c
+    driver: bridge
